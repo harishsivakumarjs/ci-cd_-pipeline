@@ -1,7 +1,15 @@
 #!/bin/bash
+
 set -e
 
 cd /home/ubuntu/app
+
+echo "Reading image definition"
+
+IMAGE_URI=$(cat /opt/codedeploy-agent/deployment-root/deployment-*/imagedefinitions.json | jq -r '.[0].imageUri')
+IMAGE_TAG=$(echo $IMAGE_URI | cut -d ":" -f2)
+
+export IMAGE_TAG=$IMAGE_TAG
 
 echo "Logging into ECR"
 
@@ -12,7 +20,7 @@ echo "Stopping old containers"
 
 docker compose down
 
-echo "Pulling latest image"
+echo "Pulling new image"
 
 docker compose pull
 
