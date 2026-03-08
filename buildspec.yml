@@ -2,17 +2,19 @@ version: 0.2
 
 env:
   variables:
-    REPO_URI: <ACCOUNT_ID>.dkr.ecr.ap-south-1.amazonaws.com/backend-prod
+    REPO_URI: <ACCOUNT_ID>.dkr.ecr.ap-south-2.amazonaws.com/backend-prod
 
 phases:
   pre_build:
     commands:
-      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin $REPO_URI
+      - aws ecr get-login-password --region ap-south-2 | docker login --username AWS --password-stdin $REPO_URI
       - IMAGE_TAG=$CODEBUILD_RESOLVED_SOURCE_VERSION
+
   build:
     commands:
       - docker build -t backend-prod:$IMAGE_TAG .
       - docker tag backend-prod:$IMAGE_TAG $REPO_URI:$IMAGE_TAG
+
   post_build:
     commands:
       - docker push $REPO_URI:$IMAGE_TAG
