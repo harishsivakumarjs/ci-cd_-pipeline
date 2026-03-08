@@ -2,7 +2,7 @@ version: "3"
 
 services:
   backend:
-    image: 331301815990.dkr.ecr.ap-south-2.amazonaws.com/backend-prod:${IMAGE_TAG}
+    image: 331301815990.dkr.ecr.ap-south-2.amazonaws.com/backend-prod:latest
     ports:
       - "3000:3000"
     restart: always
